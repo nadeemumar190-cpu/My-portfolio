@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work | Umar Meer</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Space+Grotesk:wght@700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#060606;color:#fff;font-family:'Inter',sans-serif;overflow:hidden;height:100vh;}
+img{will-change:transform;}
+
+.w-nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:22px 44px;z-index:50;}
+.w-nav-back{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color .3s;}
+.w-nav-back:hover{color:#fff;}
+.w-nav-title{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:5px;color:rgba(255,255,255,0.2);}
+.w-nav-count{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.35);}
+
+.w-container{width:100vw;height:100vh;display:flex;align-items:center;overflow:hidden;cursor:grab;position:relative;}
+.w-container.dragging{cursor:grabbing;}
+/* Change 1: snake-like smooth easing on transform */
+.w-track{display:flex;align-items:center;height:32vh;padding:0 8vw;gap:5px;will-change:transform;transform:translateX(0px);}
+.w-track.animating{transition:transform 1.1s cubic-bezier(0.22,1,0.36,1);}
+
+.w-strip{width:120px;height:100%;flex-shrink:0;position:relative;overflow:hidden;cursor:pointer;border-radius:10px;transition:width .6s cubic-bezier(.22,1,.36,1),transform .3s ease,box-shadow .3s ease;background:#1a1a1a;}
+.w-strip img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;filter:grayscale(100%) brightness(.4);transition:filter .4s ease,transform .4s ease;transform:scale(1.06);pointer-events:none;}
+.w-strip-num{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Inter',sans-serif;font-size:9px;letter-spacing:1px;color:rgba(255,255,255,.35);z-index:2;}
+.w-strip:hover{transform:translateY(-6px);box-shadow:0 12px 35px rgba(255,255,255,.1);}
+.w-strip:hover img{filter:grayscale(30%) brightness(.65);transform:scale(1.02);}
+.w-strip.active{width:200px;transform:translateY(-8px);box-shadow:0 16px 45px rgba(255,255,255,.18);}
+.w-strip.active img{filter:grayscale(0%) brightness(.85);transform:scale(1);}
+.w-strip.active .w-strip-num{opacity:0;}
+.w-track.has-active .w-strip:not(.active) img{filter:grayscale(100%) brightness(.15);}
+.w-track.has-active .w-strip:not(.active){box-shadow:none;transform:translateY(0);}
+
+.w-footer{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-between;padding:18px 44px;font-family:'Inter',sans-serif;font-size:8px;letter-spacing:2px;color:rgba(255,255,255,.18);pointer-events:none;z-index:50;}
+
+/* EXPLORE — Aristide style */
+.w-explore{position:fixed;inset:0;z-index:300;opacity:0;pointer-events:none;transition:opacity .5s ease;background:#0d0d0f;display:flex;align-items:stretch;}
+.w-explore.open{opacity:1;pointer-events:all;}
+
+.w-exp-left{width:30%;padding:50px 44px 90px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid rgba(255,255,255,.08);position:relative;}
+.w-exp-meta{display:flex;align-items:center;gap:16px;margin-bottom:16px;}
+.w-exp-num{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:3px;color:rgba(255,255,255,.3);}
+.w-exp-cat{font-family:'Inter',sans-serif;font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.4);text-transform:uppercase;}
+.w-exp-title{font-size:clamp(36px,5vw,90px);line-height:.92;letter-spacing:1px;color:#fff;flex:1;display:flex;align-items:center;text-transform:uppercase;word-break:break-word;}
+.w-exp-details{border-top:1px solid rgba(255,255,255,.1);padding-top:20px;}
+.w-exp-detail-row{display:flex;justify-content:space-between;margin-bottom:10px;}
+.w-exp-label{font-family:'Inter',sans-serif;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.3);text-transform:uppercase;}
+.w-exp-val{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,.7);font-weight:700;}
+
+/* Project nav arrows - left side, change PROJECT not slide */
+.w-proj-prev,.w-proj-next{position:absolute;background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;transition:all .3s;display:flex;align-items:center;justify-content:center;z-index:20;}
+.w-proj-prev{bottom:44px;left:44px;}
+.w-proj-next{bottom:44px;left:88px;}
+.w-proj-prev:hover,.w-proj-next:hover{background:#fff;color:#000;border-color:#fff;}
+
+.w-exp-center{flex:1;position:relative;display:flex;align-items:center;justify-content:center;padding:50px 30px;overflow:hidden;}
+.w-exp-close{position:absolute;top:26px;left:50%;transform:translateX(-50%);background:transparent;border:none;padding:0;font-family:'Inter',sans-serif;font-size:12px;letter-spacing:2px;color:rgba(255,255,255,.4);cursor:pointer;text-align:center;line-height:1.5;z-index:10;transition:color .3s;}
+.w-exp-close:hover{color:#fff;}
+.w-exp-close span{display:block;font-size:7px;letter-spacing:3px;}
+.w-exp-slide-wrap{width:100%;max-width:750px;height:72vh;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:2px;cursor:default;}
+.w-exp-slide-img{width:100%;height:100%;object-fit:contain;transition:opacity .25s ease;}
+.w-exp-slide-img.fade{opacity:0;}
+.w-exp-counter{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);font-family:'Inter',sans-serif;font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.3);}
+.w-scroll-hint{position:absolute;top:26px;right:30px;font-family:'Inter',sans-serif;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.25);}
+
+/* RIGHT — irregular spaced thumbnails like Aristide */
+.w-exp-right{width:130px;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;padding:50px 8px;border-left:1px solid rgba(255,255,255,.08);scrollbar-width:none;}
+.w-exp-right::-webkit-scrollbar{display:none;}
+.w-exp-right img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:2px;cursor:pointer;filter:brightness(.6) saturate(.4);border:2px solid transparent;transition:all .3s ease;}
+.w-exp-right img:hover,.w-exp-right img.active-thumb{filter:brightness(1) saturate(1);border-color:#fff;}
+
+.w-empty-msg{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-family:'Inter',sans-serif;font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.3);white-space:nowrap;}
+
+/* ===== MOBILE RESPONSIVE (PC view untouched above) ===== */
+@media (max-width: 768px){
+  .w-nav{padding:14px 16px;}
+  .w-nav-title{display:none;}
+  .w-nav-back{font-size:9px;}
+  .w-nav-count{font-size:9px;}
+
+  .w-track{padding:0 6vw;height:26vh;}
+  .w-strip{width:64px;}
+  .w-strip.active{width:120px;}
+  .w-strip-num{font-size:7px;}
+
+  .w-footer{padding:10px 16px;flex-direction:column;gap:2px;align-items:flex-start;}
+  .w-footer span{font-size:6px;}
+
+  .w-explore{flex-direction:column;overflow-y:auto;}
+  .w-exp-left{width:100%;padding:20px 20px 70px;border-right:none;border-bottom:1px solid rgba(255,255,255,.08);min-height:auto;}
+  .w-exp-title{font-size:clamp(28px,9vw,48px);padding:10px 0;}
+  .w-exp-meta{margin-bottom:10px;}
+  .w-exp-details{padding-top:14px;}
+  .w-proj-prev{bottom:20px;left:20px;}
+  .w-proj-next{bottom:20px;left:64px;}
+
+  .w-exp-center{width:100%;padding:30px 14px;order:-1;}
+  .w-exp-slide-wrap{height:42vh;max-width:100%;}
+  .w-exp-close{top:12px;font-size:10px;}
+  .w-scroll-hint{display:none;}
+  .w-exp-counter{bottom:10px;font-size:9px;}
+
+  .w-exp-right{width:100%;flex-direction:row;overflow-x:auto;overflow-y:hidden;padding:14px;border-left:none;border-top:1px solid rgba(255,255,255,.08);}
+  .w-exp-right img{width:70px;height:52px;flex-shrink:0;margin-right:8px !important;margin-bottom:0 !important;}
+}
+</style>
+</head>
+<body>
+
+<div style="width:100vw;height:100vh;background:#060606;overflow:hidden;">
+  <div class="w-nav">
+    <a href="index.html" class="w-nav-back">← BACK</a>
+    <span class="w-nav-title">SELECTED WORKS</span>
+    <span class="w-nav-count" id="wNavCount">01 / 24</span>
+  </div>
+  <div class="w-container" id="wContainer">
+    <div class="w-track" id="wTrack"></div>
+  </div>
+  <div class="w-footer">
+    <span>DRAG OR SCROLL TO NAVIGATE</span>
+    <span>CLICK TO EXPLORE</span>
+  </div>
+</div>
+
+<div class="w-explore" id="wExplore">
+  <div class="w-exp-left">
+    <div class="w-exp-meta">
+      <span class="w-exp-num" id="wExploreNum">01</span>
+      <span class="w-exp-cat" id="wExploreCat">DEVELOPMENT</span>
+    </div>
+    <h1 class="w-exp-title" id="wExploreTitle">PROJECT TITLE</h1>
+    <div class="w-exp-details">
+      <div class="w-exp-detail-row">
+        <span class="w-exp-label">CATEGORY</span>
+        <span class="w-exp-val" id="wExpCat2">DEVELOPMENT</span>
+      </div>
+      <div class="w-exp-detail-row">
+        <span class="w-exp-label">SLIDES</span>
+        <span class="w-exp-val" id="wExpSlides">—</span>
+      </div>
+    </div>
+    <button class="w-proj-prev" id="wProjPrev">&#8249;</button>
+    <button class="w-proj-next" id="wProjNext">&#8250;</button>
+  </div>
+  <div class="w-exp-center" id="wExpCenter">
+    <button class="w-exp-close" id="wClose">&#x2715;<br><span>CLOSE</span></button>
+    <span class="w-scroll-hint">SCROLL TO VIEW SLIDES</span>
+    <div class="w-exp-slide-wrap">
+      <img class="w-exp-slide-img" id="wSlideImg" src="" alt="">
+    </div>
+    <div class="w-exp-counter" id="wSlideCounter"></div>
+    <div class="w-empty-msg" id="wEmptyMsg" style="display:none;">No slides found</div>
+  </div>
+  <div class="w-exp-right" id="wThumbs"></div>
+</div>
+
+<script>
+var BASE = '/MyPortfolio/presentation/';
+
+var projects = [
+  {id:1,  category:"DEVELOPMENT", title:"NEON CORE SYSTEM"  },
+  {id:2,  category:"THESIS",      title:"ETHICAL FRONTIERS" },
+  {id:3,  category:"VIDEO",       title:"CHRONOS MOTION"    },
+  {id:4,  category:"WEB",         title:"AETHER INTERFACE"  },
+  {id:5,  category:"WRITING",     title:"SILENT NARRATIVES" },
+  {id:6,  category:"DESIGN",      title:"MINIMALIST CHAOS"  },
+  {id:7,  category:"CODING",      title:"QUANTUM ALGORITHM" },
+  {id:8,  category:"THESIS",      title:"URBAN SOCIOLOGY"   },
+  {id:9,  category:"VIDEO",       title:"VINTAGE REWIND"    },
+  {id:10, category:"WEB",         title:"LIQUID LAYOUTS"    },
+  {id:11, category:"WRITING",     title:"ACADEMIC RIGOR"    },
+  {id:12, category:"DESIGN",      title:"BOLD TYPOGRAPHY"   },
+  {id:13, category:"DEVELOPMENT", title:"COBALT BACKEND"    },
+  {id:14, category:"THESIS",      title:"CLIMATE IMPACT"    },
+  {id:15, category:"VIDEO",       title:"GLITCH AESTHETIC"  },
+  {id:16, category:"WEB",         title:"ZEN EXPERIENCE"    },
+  {id:17, category:"WRITING",     title:"LOGIC & REASON"    },
+  {id:18, category:"DESIGN",      title:"GEOMETRIC SOUL"    },
+  {id:19, category:"CODING",      title:"VOID FUNCTIONS"    },
+  {id:20, category:"THESIS",      title:"CULTURAL ROOTS"    },
+  {id:21, category:"VIDEO",       title:"STREET PULSE"      },
+  {id:22, category:"WEB",         title:"HYPER SPACE"       },
+  {id:23, category:"WRITING",     title:"DEEP RESEARCH"     },
+  {id:24, category:"DESIGN",      title:"MONOCHROME ART"    }
+];
+
+// simple cache so we don't re-probe extensions every time
+var slideCache = {};
+
+function setImg(el,folder,num){
+  el.decoding='async';
+  el.loading='lazy';
+  el.src=BASE+folder+'/'+num+'.jpg';
+  el.onerror=function(){
+    el.onerror=function(){ el.style.display='none'; if(el.parentElement) el.parentElement.style.background='#1a1a1a'; };
+    el.src=BASE+folder+'/'+num+'.png';
+  };
+}
+
+function loadAllSlides(folderId,callback){
+  if(slideCache[folderId]){ callback(slideCache[folderId]); return; }
+  var slides=[],total=20,done=0; // reduced from 30->20 for speed
+  for(var n=1;n<=total;n++){
+    (function(num){
+      var exts=['jpg','png'],ei=0,found=false;
+      function tryNext(){
+        if(ei>=exts.length){done++;if(done>=total) finish();return;}
+        var img=new Image();
+        img.onload=function(){if(!found){found=true;slides.push(num);}done++;if(done>=total) finish();};
+        img.onerror=function(){ei++;tryNext();};
+        img.src=BASE+folderId+'/'+num+'.'+exts[ei++];
+      }
+      function finish(){
+        if(done>=total){
+          var sorted=slides.slice().sort(function(a,b){return a-b;});
+          slideCache[folderId]=sorted;
+          callback(sorted);
+        }
+      }
+      tryNext();
+    })(n);
+  }
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  var track=document.getElementById('wTrack');
+  if(!track) return;
+  var navCount=document.getElementById('wNavCount');
+  var activeIdx=-1;
+
+  projects.forEach(function(p,i){
+    var strip=document.createElement('div');
+    strip.className='w-strip';
+    var img=document.createElement('img');
+    img.alt=p.title;
+    setImg(img,p.id,1);
+    var numDiv=document.createElement('div');
+    numDiv.className='w-strip-num';
+    numDiv.textContent=String(p.id).padStart(2,'0');
+    strip.appendChild(img);
+    strip.appendChild(numDiv);
+    strip.addEventListener('click',function(e){
+      if(didDrag) { didDrag=false; return; } // Change 4: ignore click after drag
+      goToProject(i);
+      setTimeout(function(){ openExplore(projects[i]); },280);
+    });
+    track.appendChild(strip);
+  });
+
+  function goToProject(idx){
+    var all=document.querySelectorAll('.w-strip');
+    all.forEach(function(s){s.classList.remove('active');});
+    var el=all[idx];
+    el.classList.add('active');
+    track.classList.add('has-active');
+    activeIdx=idx;
+    if(navCount) navCount.textContent=String(idx+1).padStart(2,'0')+' / 24';
+    var cw=document.querySelector('.w-container').offsetWidth;
+    var offset=el.offsetLeft-(cw/2)+100;
+    snapTo(-Math.max(0,offset));
+  }
+
+  // ---- Change 1: snake-style smooth transform helper ----
+  var currentX = 0;
+  function snapTo(x){
+    track.classList.add('animating');
+    track.style.transform='translateX('+x+'px)';
+    currentX = x;
+    setTimeout(function(){ track.classList.remove('animating'); }, 1100);
+  }
+  function setX(x){
+    track.style.transform='translateX('+x+'px)';
+    currentX = x;
+  }
+
+  var explore=document.getElementById('wExplore'),
+      expTitle=document.getElementById('wExploreTitle'),
+      expCat=document.getElementById('wExploreCat'),
+      expCat2=document.getElementById('wExpCat2'),
+      expNum=document.getElementById('wExploreNum'),
+      expSlides=document.getElementById('wExpSlides'),
+      slideImg=document.getElementById('wSlideImg'),
+      thumbWrap=document.getElementById('wThumbs'),
+      counter=document.getElementById('wSlideCounter'),
+      emptyMsg=document.getElementById('wEmptyMsg'),
+      expCenter=document.getElementById('wExpCenter'),
+      curSlides=[],curSlide=0,curFolder=1,curProjIdx=0;
+
+  function openExplore(project){
+    curFolder=project.id;
+    curProjIdx = projects.findIndex(function(p){return p.id===project.id;});
+    if(expTitle) expTitle.textContent=project.title;
+    if(expCat)   expCat.textContent=project.category;
+    if(expCat2)  expCat2.textContent=project.category;
+    if(expNum)   expNum.textContent=String(project.id).padStart(2,'0');
+    if(expSlides) expSlides.textContent='...';
+    slideImg.style.display='none';
+    if(emptyMsg) emptyMsg.style.display='none';
+    explore.classList.add('open');
+
+    loadAllSlides(project.id,function(slides){
+      curSlides=slides; curSlide=0;
+      if(slides.length===0){
+        if(expSlides) expSlides.textContent='0';
+        if(counter) counter.textContent='';
+        if(emptyMsg) emptyMsg.style.display='block';
+        if(thumbWrap) thumbWrap.innerHTML='';
+        return;
+      }
+      if(expSlides) expSlides.textContent=slides.length;
+      slideImg.style.display='';
+      showSlide(0);
+      buildThumbs(project.id,slides);
+    });
+  }
+
+  function showSlide(idx){
+    if(!curSlides.length||!slideImg) return;
+    curSlide=idx;
+    slideImg.classList.add('fade');
+    setTimeout(function(){
+      var num=curSlides[idx];
+      slideImg.onerror=function(){slideImg.onerror=null;slideImg.src=BASE+curFolder+'/'+num+'.png';};
+      slideImg.src=BASE+curFolder+'/'+num+'.jpg';
+      slideImg.onload=function(){slideImg.classList.remove('fade');};
+      if(counter) counter.textContent=(idx+1)+' / '+curSlides.length;
+      if(thumbWrap){
+        thumbWrap.querySelectorAll('img').forEach(function(t,i){t.classList.toggle('active-thumb',i===idx);});
+        var at=thumbWrap.querySelectorAll('img')[idx];
+        if(at) at.scrollIntoView({behavior:'smooth',block:'nearest'});
+      }
+    },150);
+  }
+
+  // Change 2: irregular gaps between thumbnails (1,2,3 random pattern)
+  function buildThumbs(folderId,slides){
+    if(!thumbWrap) return;
+    thumbWrap.innerHTML='';
+    var gapPattern=[8,18,28,12,22,8,16]; // varying margin-bottoms
+    slides.forEach(function(num,i){
+      var t=document.createElement('img');
+      t.alt='slide '+num;
+      setImg(t,folderId,num);
+      t.style.marginBottom = gapPattern[i % gapPattern.length] + 'px';
+      t.addEventListener('click',(function(idx){return function(){showSlide(idx);};})(i));
+      if(i===0) t.classList.add('active-thumb');
+      thumbWrap.appendChild(t);
+    });
+  }
+
+  // Change 3: arrows change PROJECT, not slide
+  document.getElementById('wProjPrev').addEventListener('click',function(){
+    var prevIdx = (curProjIdx - 1 + projects.length) % projects.length;
+    goToProject(prevIdx);
+    openExplore(projects[prevIdx]);
+  });
+  document.getElementById('wProjNext').addEventListener('click',function(){
+    var nextIdx = (curProjIdx + 1) % projects.length;
+    goToProject(nextIdx);
+    openExplore(projects[nextIdx]);
+  });
+
+  // mouse wheel over center = change SLIDE
+  if(expCenter){
+    expCenter.addEventListener('wheel',function(e){
+      e.preventDefault();
+      if(!curSlides.length) return;
+      if(e.deltaY > 0) showSlide((curSlide+1)%curSlides.length);
+      else showSlide((curSlide-1+curSlides.length)%curSlides.length);
+    },{passive:false});
+  }
+
+  document.getElementById('wClose').addEventListener('click',function(){
+    explore.classList.remove('open');
+    document.querySelectorAll('.w-strip').forEach(function(s){s.classList.remove('active');});
+    track.classList.remove('has-active');
+    activeIdx=-1;
+  });
+
+  // ---- DRAG (Change 4: distinguish drag vs click) ----
+  var cont=document.querySelector('.w-container'),
+      drag=false, sx=0, startTx=0, didDrag=false, dragDistance=0;
+
+  if(cont){
+    cont.addEventListener('mousedown',function(e){
+      drag=true; didDrag=false; dragDistance=0;
+      sx=e.clientX;
+      var m=new DOMMatrix(getComputedStyle(track).transform);
+      startTx=m.m41;
+      cont.classList.add('dragging');
+      track.classList.remove('animating');
+    });
+    cont.addEventListener('wheel',function(e){
+      e.preventDefault();
+      var m=new DOMMatrix(getComputedStyle(track).transform);
+      var tx=m.m41-e.deltaY*1.4;
+      var mn=-(track.scrollWidth-cont.offsetWidth+100);
+      tx=Math.max(mn,Math.min(0,tx));
+      setX(tx);
+    },{passive:false});
+  }
+
+  document.addEventListener('mousemove',function(e){
+    if(!drag||!cont) return;
+    var dx = e.clientX - sx;
+    dragDistance = Math.abs(dx);
+    if(dragDistance > 6) didDrag = true; // threshold: real drag vs click
+    var tx = startTx + dx;
+    var mn=-(track.scrollWidth-cont.offsetWidth+100);
+    tx=Math.max(mn,Math.min(0,tx));
+    setX(tx);
+  });
+  document.addEventListener('mouseup',function(){
+    if(!drag) return;
+    drag=false;
+    if(cont) cont.classList.remove('dragging');
+    // small delay so click handler can check didDrag first
+    setTimeout(function(){ didDrag=false; }, 50);
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(explore.classList.contains('open')){
+      if(e.key==='Escape') document.getElementById('wClose').click();
+      if(e.key==='ArrowRight') document.getElementById('wProjNext').click();
+      if(e.key==='ArrowLeft')  document.getElementById('wProjPrev').click();
+    }
+  });
+});
+</script>
+</body>
+</html>

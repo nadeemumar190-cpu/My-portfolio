@@ -1,0 +1,556 @@
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: #000;
+    color: #fff;
+    /* Aristide jaisa premium font */
+    font-family: 'Archivo Black', sans-serif; 
+    overflow: hidden;
+    height: 100vh;
+}
+
+.hero-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Center ki jagah flex-end kar dia taake image niche lag jaye */
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000 70%);
+    perspective: 1000px;
+}
+
+.big-text {
+       font-size: 15vw; /* Size thoda aur bara */
+    color: #fff; /* Rang bilkul White */
+    position: absolute;
+    bottom: 35%; /* Text ko thoda upar karne ke liye */
+    z-index: 1;
+}
+
+.main-image {
+    height: 85vh; /* Image ka size thoda adjust kia */
+    display: block;
+    margin-bottom: 0; /* Bilkul niche jorne ke liye */
+    position: relative;
+    z-index: 2;
+}
+
+
+/* 3. Top Details (White & Clean) */
+.top-details {
+    position: absolute;
+    top: 50px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    z-index: 3;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 2px;
+}
+
+/* 4. Bottom Details */
+.bottom-details {
+    position: absolute;
+    bottom: 50px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    z-index: 3;
+}
+
+.desc-left { 
+    font-size: 13px; 
+    line-height: 1.6; 
+    color: #fff; /* Text white kar dia */
+    text-transform: uppercase; 
+    font-family: 'Inter', sans-serif;
+    max-width: 300px;
+}
+
+/* 5. Buttons (Aristide Style) */
+.buttons { display: flex; gap: 15px; }
+
+button {
+    background: transparent;
+    border: 1px solid #fff; /* Safaid border */
+    color: #fff;
+    padding: 12px 28px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+}
+
+button:hover { 
+    background: #fff; 
+    color: #000; 
+    transform: scale(1.05); /* Thora bara hoga hover par */
+}
+/* Picture par halka sa glow aur lift */
+.main-image {
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.main-image:hover {
+    transform: scale(1.02) translateY(-10px);
+    filter: drop-shadow(0 30px 60px rgba(255,255,255,0.1));
+}
+
+/* Buttons ka smooth "Fill" effect */
+button {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 0%; height: 100%;
+    background: #fff;
+    transition: 0.4s ease;
+    z-index: -1;
+}
+
+button:hover::before {
+    width: 100%;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ============================================================
+   ══ SCREENSHOT 2 PERFECT MATCH LAYOUT CONTROLS ══
+   ============================================================ */
+:root {
+  /* ══ IMAGE POSITION & OVERLAP (Screenshot 2 jisa seamless overlap) ══ */
+  --image-width: 410px;          
+  --image-height: 85vh;          
+  --image-position-top: 7vh;     
+  --image-position-left: 48vw;   /* Left par shift kiya taake box ke peeche overlap kare */
+
+  /* ══ LEFT ELEMENTS POSITIONING ══ */
+  --heading-top: 6vh;
+  --heading-left: 10vw;
+  --heading-big-font-size: 11vw;  /* Bada aur flowy signature loop look */
+  --heading-rest-font-size: 3.2vw;
+
+  /* ══ BROWN CONTENT BOX OVERLAP ══ */
+  --box-top: 28vh;
+  --box-left: 20vw;               /* Right side se image ke upar charhega */
+  --box-max-width: 440px;
+  --box-padding: 45px 40px;
+  --box-bg-color: #c9a37e;
+
+  /* ══ FOOTER ELEMENTS ══ */
+  --socials-bottom: 8vh;
+  --socials-left: 12vw;
+  --socials-font-size: 14px;
+
+  --back-btn-bottom: 8vh;
+  --back-btn-right: 12vw;         /* Corner me arrow ke sath alignment */
+  --back-btn-font-size: 15px;
+}
+
+/* ══ GLOBAL RESET ══ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+.hire2-page {
+  width: 100vw;
+  height: 100vh;
+  background: #b5b5b5; /* Rich silver/grey tint from screenshot 2 */
+  overflow: hidden;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+}
+
+/* LEFT SIDE LAYER */
+.hire2-left {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10; /* Ensures box stays ON TOP of the image */
+  pointer-events: none;
+}
+.hire2-left * { pointer-events: all; }
+
+/* ══ FONT STYLE ADJUSTMENT FOR "HIRE ME" ══ */
+.hire2-heading {
+  position: absolute;
+  top: var(--heading-top);
+  left: var(--heading-left);
+  color: #161616;
+  line-height: 0.7;
+  white-space: nowrap;
+}
+.hire2-heading .big-h {
+  font-family: 'La Belle Aurore', cursive; /* Exact loop and wave cursive font style */
+  font-size: var(--heading-big-font-size);
+  font-weight: 400;
+  display: inline-block;
+  transform: translateY(2vh); /* Adjusting loop depth */
+}
+.hire2-heading .rest {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: var(--heading-rest-font-size);
+  letter-spacing: 3px;
+  margin-left: -15px;
+}
+
+/* BROWN BOX OVERLAPPING STRATEGY */
+.hire2-box {
+  position: absolute;
+  top: var(--box-top);
+  left: var(--box-left);
+  background: var(--box-bg-color);
+  padding: var(--box-padding);
+  width: 100%;
+  max-width: var(--box-max-width);
+  box-shadow: -15px 30px 70px rgba(0,0,0,0.18); /* Left shadow gradient */
+  transition: box-shadow .4s ease, transform .4s ease;
+}
+.hire2-box:hover {
+  box-shadow: -20px 40px 90px rgba(0,0,0,.4);
+  transform: translateY(-4px);
+}
+.hire2-desc {
+  font-family: 'Playfair Display', serif; /* Matching screenshot typography */
+  font-size: 17px;
+  line-height: 1.65;
+  color: #3a2a18;
+  margin-bottom: 28px;
+}
+.hire2-rule {
+  width: 100%;
+  height: 1px;
+  background: rgba(58,42,24,.3);
+  margin-bottom: 20px;
+}
+.hire2-tagline {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: #2a1c0e;
+}
+
+/* SOCIALS */
+.hire2-socials {
+  position: absolute;
+  bottom: var(--socials-bottom);
+  left: var(--socials-left);
+  font-size: var(--socials-font-size);
+  color: #1a1a1a;
+}
+.hire2-socials p { margin-bottom: 8px; }
+
+.hire2-link {
+  position: relative;
+  color: #1a1a1a;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+}
+.hire2-link::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -3px;
+  width: 0%; height: 1.5px;
+  background: #1a1a1a;
+  transition: width .4s cubic-bezier(.23,1,.32,1);
+}
+.hire2-link:hover::after { width: 100%; }
+
+/* GO BACK WITH ARROW POSITION */
+.hire2-back {
+  position: absolute;
+  bottom: var(--back-btn-bottom);
+  right: var(--back-btn-right);
+  font-family: 'Playfair Display', serif;
+  font-size: var(--back-btn-font-size);
+  color: #1a1a1a;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform .3s ease;
+}
+.hire2-back:hover { transform: translateX(-5px); }
+
+/* IMAGE LAYER UNDER THE BOX EFFECT */
+.hire2-image-wrap {
+  position: absolute;
+  top: var(--image-position-top);
+  left: var(--image-position-left);
+  width: var(--image-width);
+  height: var(--image-height);
+  overflow: hidden;
+  z-index: 1; /* Box ke exact peeche hidden side layers */
+  box-shadow: 0 35px 90px rgba(0, 0, 0, 0.3);
+}
+.hire2-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .6s cubic-bezier(.23,1,.32,1);
+}
+.hire2-image:hover {
+  transform: scale(1.03);
+}
+
+/* ══ MOBILE RESPONSIVE VIEW ══ */
+@media (max-width: 768px) {
+  .hire2-page { display: flex; flex-direction: column; height: auto; min-height: 100vh; overflow-y: auto; }
+  .hire2-left { position: static; width: 100%; padding: 40px 24px; display: flex; flex-direction: column; height: auto; }
+  .hire2-image-wrap { position: relative; width: 90%; height: 50vh; margin: 20px auto; top: 0; left: 0; }
+  .hire2-heading { position: static; white-space: normal; text-align: center; margin-bottom: 4vh; }
+  .hire2-heading .big-h { font-size: 80px; transform: none; }
+  .hire2-heading .rest { font-size: 28px; margin-left: 0; }
+  .hire2-box { position: static; max-width: 100%; margin-bottom: 40px; }
+  .hire2-socials { position: static; margin-top: 20px; text-align: center; }
+  .hire2-back { position: static; display: block; text-align: center; margin-top: 30px; margin-bottom: 20px; }
+}
+
+
+
+
+
+
+
+
+
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-color: #000000;
+  color: #fff;
+  font-family: 'Archivo Black', sans-serif;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* ══ INDEX PAGE ══ */
+.hero-wrapper {
+  position: relative; width: 100%; height: 100vh;
+  display: flex; justify-content: center; align-items: flex-end;
+  background: radial-gradient(circle at center, #1a1a1a 0%, #000 70%);
+}
+.big-text { font-size: 15vw; color: #fff; position: absolute; bottom: 35%; z-index: 1; }
+.main-image {
+  height: 85vh; display: block; margin-bottom: 0;
+  position: relative; z-index: 2;
+  transition: transform 0.6s cubic-bezier(0.23,1,0.32,1);
+}
+.main-image:hover { transform: scale(1.02) translateY(-10px); filter: drop-shadow(0 30px 60px rgba(255,255,255,0.1)); }
+.top-details { position: absolute; top: 50px; width: 90%; display: flex; justify-content: space-between; font-size: 14px; z-index: 3; font-family: 'Inter', sans-serif; letter-spacing: 2px; }
+.bottom-details { position: absolute; bottom: 50px; width: 90%; display: flex; justify-content: space-between; align-items: flex-end; z-index: 3; }
+.desc-left { font-size: 13px; line-height: 1.6; color: #fff; text-transform: uppercase; font-family: 'Inter', sans-serif; max-width: 300px; }
+.buttons { display: flex; gap: 15px; }
+button {
+  background: transparent; border: 1px solid #fff; color: #fff;
+  padding: 12px 28px; cursor: pointer; font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; transition: all 0.4s ease; text-transform: uppercase;
+  position: relative; overflow: hidden; z-index: 1;
+}
+button::before { content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 100%; background: #fff; transition: 0.4s ease; z-index: -1; }
+button:hover::before { width: 100%; }
+button:hover { color: #000; transform: scale(1.05); }
+
+/* ══ HIRE PAGE ══ */
+.hire-container { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background-color: #000; color: #fff; padding: 20px; }
+.hire-title { font-family: 'Archivo Black', sans-serif; font-size: 8vw; line-height: 1; margin-bottom: 50px; }
+.contact-info { display: flex; gap: 50px; margin-bottom: 40px; }
+.info-item span { font-size: 12px; color: #888; letter-spacing: 2px; }
+.info-item p { font-size: 20px; font-weight: bold; margin-top: 10px; }
+.social-links-container { margin-top: 30px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+.social-links-container span { font-size: 12px; color: #888; letter-spacing: 2px; }
+.social-links { display: flex; gap: 20px; margin-top: 10px; }
+.social-btn { display: inline-block; color: #fff !important; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); padding: 10px 25px; font-size: 11px; letter-spacing: 1px; transition: all 0.3s ease; }
+.social-btn:hover { background: #fff; color: #000 !important; border-color: #fff; }
+.back-btn { margin-top: 50px; color: #888; text-decoration: none; font-size: 14px; }
+.email-link { color: white; text-decoration: none; transition: opacity 0.3s; }
+.email-link:hover { opacity: 0.7; }
+
+/* ══ WORK PAGE ══ */
+.w-page { width: 100vw; height: 100vh; background: #060606; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+.w-nav { position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 22px 44px; z-index: 50; pointer-events: none; }
+.w-nav * { pointer-events: all; }
+.w-nav-back { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,0.45); text-decoration: none; transition: color .3s; }
+.w-nav-back:hover { color: #fff; }
+.w-nav-title { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 5px; color: rgba(255,255,255,0.2); }
+.w-nav-count { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,0.35); }
+
+.w-container { width: 100vw; height: 100vh; display: flex; align-items: center; overflow: hidden; cursor: grab; position: relative; }
+.w-container.dragging { cursor: grabbing; }
+
+.w-track {
+  display: flex; align-items: center;
+  height: 36vh; /* Change 1: half height */
+  padding: 0 8vw; gap: 5px;
+  transition: transform .7s cubic-bezier(.19,1,.22,1);
+  will-change: transform; flex-shrink: 0;
+}
+
+/* Change 2: double width, Change 3: rounded corners */
+.w-strip {
+  width: 120px;
+  flex-shrink: 0; position: relative; overflow: hidden;
+  cursor: pointer;
+  border-radius: 12px; /* Change 3 */
+  transition: width .8s cubic-bezier(.19,1,.22,1), transform .4s ease, box-shadow .4s ease;
+  background: #111;
+}
+.w-strip img {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(100%) brightness(.4);
+  transition: filter .5s ease, transform .5s ease;
+  transform: scale(1.06); pointer-events: none;
+}
+.w-strip-num {
+  position: absolute; bottom: 10px; left: 0; right: 0; text-align: center;
+  font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: 1px;
+  color: rgba(255,255,255,.3); z-index: 2; transition: opacity .3s;
+}
+
+/* Change 4: hover = lift + glow only, no expand */
+.w-strip:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 14px 40px rgba(255,255,255,.14), 0 0 0 1px rgba(255,255,255,.08);
+}
+.w-strip:hover img { filter: grayscale(40%) brightness(.65); transform: scale(1.02); }
+
+/* active = small width increase + stronger glow */
+.w-strip.active {
+  width: 160px;
+  transform: translateY(-10px);
+  box-shadow: 0 18px 50px rgba(255,255,255,.2), 0 0 0 1px rgba(255,255,255,.15);
+}
+.w-strip.active img { filter: grayscale(0%) brightness(.85); transform: scale(1); }
+.w-strip.active .w-strip-num { opacity: 0; }
+
+.w-track.has-active .w-strip:not(.active) img { filter: grayscale(100%) brightness(.18); }
+.w-track.has-active .w-strip:not(.active) { box-shadow: none; transform: translateY(0); }
+
+.w-footer { position: fixed; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-between; padding: 18px 44px; font-family: 'Inter', sans-serif; font-size: 8px; letter-spacing: 2px; color: rgba(255,255,255,.18); pointer-events: none; z-index: 50; }
+
+/* ══ EXPLORE — Aristide Style ══ */
+/* Change 5+6: light bg, 3-column layout */
+.w-explore {
+  position: fixed; inset: 0; z-index: 300;
+  opacity: 0; pointer-events: none;
+  transition: opacity .5s ease;
+  background: #f0ede6;
+  display: flex; align-items: stretch;
+}
+.w-explore.open { opacity: 1; pointer-events: all; }
+
+/* LEFT — big title */
+.w-exp-left {
+  width: 30%; padding: 50px 44px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  border-right: 1px solid rgba(0,0,0,.1);
+}
+.w-exp-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.w-exp-num { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 3px; color: rgba(0,0,0,.3); }
+.w-exp-cat { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 3px; color: rgba(0,0,0,.4); }
+.w-exp-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(32px, 4vw, 68px);
+  line-height: .95; letter-spacing: 2px; color: #0a0a0a;
+  flex: 1; display: flex; align-items: flex-end; padding-bottom: 30px;
+}
+.w-exp-details { border-top: 1px solid rgba(0,0,0,.12); padding-top: 22px; }
+.w-exp-detail-row { display: flex; justify-content: space-between; margin-bottom: 12px; }
+.w-exp-label { font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: 2px; color: rgba(0,0,0,.35); }
+.w-exp-val { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 1px; color: rgba(0,0,0,.7); font-weight: 700; }
+
+/* CENTER — main image */
+.w-exp-center {
+  flex: 1; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  padding: 60px 40px 50px;
+  background: #f0ede6;
+}
+.w-exp-close {
+  position: absolute; top: 28px; left: 50%; transform: translateX(-50%);
+  background: transparent; border: none; padding: 0;
+  font-family: 'Inter', sans-serif; font-size: 13px;
+  letter-spacing: 2px; color: rgba(0,0,0,.4);
+  cursor: pointer; text-align: center; line-height: 1.5;
+  transition: color .3s; z-index: 10;
+}
+.w-exp-close::before { display: none; }
+.w-exp-close:hover { color: #000; transform: translateX(-50%) scale(1.05); }
+.w-exp-close span { display: block; font-size: 8px; letter-spacing: 3px; }
+
+.w-exp-slide-wrap {
+  width: 100%; max-width: 620px; height: 62vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; border-radius: 3px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.12);
+}
+.w-exp-slide-img { width: 100%; height: 100%; object-fit: contain; transition: opacity .3s ease; }
+.w-exp-slide-img.fade { opacity: 0; }
+
+.w-exp-prev, .w-exp-next {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: transparent; border: none; padding: 10px;
+  font-size: 36px; color: rgba(0,0,0,.25); cursor: pointer;
+  transition: color .3s; z-index: 10;
+}
+.w-exp-prev::before, .w-exp-next::before { display: none; }
+.w-exp-prev { left: 14px; }
+.w-exp-next { right: 14px; }
+.w-exp-prev:hover, .w-exp-next:hover { color: #000; }
+
+.w-exp-counter {
+  position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+  font-family: 'Inter', sans-serif; font-size: 10px;
+  letter-spacing: 3px; color: rgba(0,0,0,.35);
+}
+
+/* RIGHT — thumbnails stacked */
+.w-exp-right {
+  width: 130px; overflow-y: auto; overflow-x: hidden;
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 50px 10px; border-left: 1px solid rgba(0,0,0,.1);
+  scrollbar-width: none;
+}
+.w-exp-right::-webkit-scrollbar { display: none; }
+.w-exp-right img {
+  width: 100%; aspect-ratio: 4/3; object-fit: cover;
+  border-radius: 3px; cursor: pointer; flex-shrink: 0;
+  filter: brightness(.7) saturate(.5);
+  border: 2px solid transparent; transition: all .3s ease;
+}
+.w-exp-right img:hover { filter: brightness(1) saturate(1); }
+.w-exp-right img.active-thumb { border-color: #0a0a0a; filter: brightness(1) saturate(1); }
